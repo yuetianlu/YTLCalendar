@@ -89,7 +89,7 @@ class CalendarManager {
             case .calendarTypeDown:
                 if model.index < KCalendarMonthCount - 1 {
                     // 获取上月数据
-                    let downModel = dataArray[model.index - 1]
+                    let downModel = dataArray[model.index + 1]
                     for downItem in downModel.dataArray {
                         if downItem.date.isSameDay(model.date) && downItem.type == .calendarTypeCurrent { // 前一月对应的日期
                             let oldModel = selectedItemModel
@@ -146,19 +146,19 @@ extension CalendarManager {
             // 记录游标
             var cursor = 0
             //记录上月日期的部分
-            for i in 0..<upSize {
+            for _ in 0..<upSize {
                 let item = CalendarItemModel()
-                item.index = cursor
+                item.index = i
                 item.date = startDate.dateAfterDay(cursor)
                 item.type = .calendarTypeUp
                 mItemArray.append(item)
                 cursor += 1
             }
             // 记录当月日期部分
-            for i in 0..<curMonthSize {
+            for _ in 0..<curMonthSize {
                 
                 let item = CalendarItemModel()
-                item.index = cursor
+                item.index = i
                 item.date = startDate.dateAfterDay(cursor)
                 item.type = .calendarTypeCurrent
                 if item.date.isSameDay(self.date) { // 判断是否是今天
@@ -171,10 +171,10 @@ extension CalendarManager {
             }
             // 记录下月日期部分
             let downSize = 42 - upSize - curMonthSize // 剩下天数
-            for i in 0..<downSize {
+            for _ in 0..<downSize {
                 
                 let item = CalendarItemModel()
-                item.index = cursor
+                item.index = i
                 item.date = startDate.dateAfterDay(cursor)
                 item.type = .calendarTypeDown
                 mItemArray.append(item)
