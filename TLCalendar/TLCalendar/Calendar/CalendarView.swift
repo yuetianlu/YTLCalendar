@@ -113,6 +113,7 @@ extension CalendarView: UICollectionViewDelegate, UICollectionViewDataSource, UI
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell: CalendarCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CalendarCell", for: indexPath) as? CalendarCell {
             cell.model = dataArray[indexPath.row]
+            cell.type = .cell
             return cell
         }
         return UICollectionViewCell()

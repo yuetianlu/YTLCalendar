@@ -148,7 +148,7 @@ extension CalendarManager {
             //记录上月日期的部分
             for i in 0..<upSize {
                 let item = CalendarItemModel()
-                item.index = i
+                item.index = cursor
                 item.date = startDate.dateAfterDay(cursor)
                 item.type = .calendarTypeUp
                 mItemArray.append(item)
@@ -158,7 +158,7 @@ extension CalendarManager {
             for i in 0..<curMonthSize {
                 
                 let item = CalendarItemModel()
-                item.index = i
+                item.index = cursor
                 item.date = startDate.dateAfterDay(cursor)
                 item.type = .calendarTypeCurrent
                 if item.date.isSameDay(self.date) { // 判断是否是今天
@@ -174,7 +174,7 @@ extension CalendarManager {
             for i in 0..<downSize {
                 
                 let item = CalendarItemModel()
-                item.index = i
+                item.index = cursor
                 item.date = startDate.dateAfterDay(cursor)
                 item.type = .calendarTypeDown
                 mItemArray.append(item)

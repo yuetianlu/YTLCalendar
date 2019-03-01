@@ -144,10 +144,10 @@ class CalendarCollectionLayout: UICollectionViewFlowLayout {
     override func prepare() {
         super.prepare()
         
-        let itemWH: CGFloat = UIScreen.main.bounds.size.width / CGFloat(kEmotionCellNumberOfOneRow)
-        
+        let itemW: CGFloat = (UIScreen.main.bounds.size.width - 2) / CGFloat(kEmotionCellNumberOfOneRow)
+        let itemH: CGFloat = 260 / CGFloat(kEmotionCellRow)
         // 设置itemSize
-        itemSize = CGSize(width: itemWH, height: itemWH)
+        itemSize = CGSize(width: itemW, height: itemH)
         minimumLineSpacing = 0
         minimumInteritemSpacing = 0
         scrollDirection = .horizontal
@@ -156,8 +156,8 @@ class CalendarCollectionLayout: UICollectionViewFlowLayout {
         collectionView?.isPagingEnabled = true
         collectionView?.showsHorizontalScrollIndicator = false
         collectionView?.showsVerticalScrollIndicator = true
-        let insertMargin = (collectionView!.bounds.height - 3 * itemWH) * 0.5
-        collectionView?.contentInset = UIEdgeInsets(top: insertMargin, left: 0, bottom: insertMargin, right: 0)
+        //let insertMargin = (collectionView!.bounds.height - 3 * itemWH) * 0.5
+        //collectionView?.contentInset = UIEdgeInsets(top: insertMargin, left: 0, bottom: insertMargin, right: 0)
         
         var page = 0
         let itemsCount = collectionView?.numberOfItems(inSection: 0) ?? 0
