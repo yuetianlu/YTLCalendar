@@ -20,7 +20,17 @@ class CalendarManager {
         return StructWrapper.instance
     }
 
-    var date: Date {
+    var beganDate: Date {
+//        var now = Date()
+//        // 获取系统s时区
+//        let zone = NSTimeZone.system
+//        let time = zone.secondsFromGMT(for: now)
+//        now = now.addingTimeInterval(TimeInterval(time))
+//        print("----当前时间----\(now)")
+        let now = Date.formatDate("2018-12-09")
+        return now
+    }
+    var nowDate: Date {
         var now = Date()
         // 获取系统s时区
         let zone = NSTimeZone.system
@@ -29,6 +39,7 @@ class CalendarManager {
         print("----当前时间----\(now)")
         return now
     }
+
     var selectedItemModel: CalendarItemModel? // 当前被选中的日期
     var selectedMonthModel: CalendarItemModel? // 当前被选中的月份
     var dataArray: [CalendarModel] = [] // 日期数据模型
@@ -124,7 +135,7 @@ extension CalendarManager {
         for i in 0..<KCalendarMonthCount {
             var mItemArray: [CalendarItemModel] = []
             // 当月
-            let curDate = self.date.dateAfterMonth(i)
+            let curDate = self.beganDate.dateAfterMonth(i)
             // 当月大小
             let curMonthSize = curDate.daysInMonth()
             
@@ -156,7 +167,7 @@ extension CalendarManager {
                 item.index = i
                 item.date = startDate.dateAfterDay(cursor)
                 item.type = .calendarTypeCurrent
-                if item.date.isSameDay(self.date) { // 判断是否是今天
+                if item.date.isSameDay(self.nowDate) { // 判断是否是今天
                     item.isNowDay = true
                     selectedItemModel = item
                     selectedItemModel?.isSelected = true
@@ -205,7 +216,7 @@ extension CalendarManager {
         for i in 0..<KCalendarMonthCount {
             let item = CalendarItemModel()
             // 获取下一月
-            let upDate = self.date.dateAfterMonth(i)
+            let upDate = self.beganDate.dateAfterMonth(i)
             item.index = i
             item.month = "\(upDate.month())月"
             item.year = "\(upDate.year())"
