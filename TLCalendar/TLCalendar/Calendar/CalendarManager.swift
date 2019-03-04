@@ -59,30 +59,20 @@ class CalendarManager {
     
     // 根据选中item改变数据
     func updateSelectedItemModel(_ model: CalendarItemModel) {
-        if let selectModel = selectedItemModel, selectModel.date.string() != model.date.string() {
+        if let _ = selectedItemModel {
             // 如果点击上月或下月图标，滚动到对应页面
             switch model.type {
             case .calendarTypeCurrent:
-                let oldModel = selectedItemModel
-                oldModel?.isSelected = false
-                let newModel = model
-                newModel.isSelected = true
-                selectedItemModel = newModel
+                updateCurrentModel(model)
                 block?(.calendarTypeCurrent)
-                print("-----当前选中：\(newModel.date.string())----上次选中：\(String(describing: oldModel?.date.string()))")
             case .calendarTypeUp:
                 if model.index > 0 {
                     // 获取上月数据
                     let upModel = dataArray[model.index - 1]
                     for upItem in upModel.dataArray {
                         if upItem.date.isSameDay(model.date) && upItem.type == .calendarTypeCurrent { // 前一月对应的日期
-                            let oldModel = selectedItemModel
-                            oldModel?.isSelected = false
-                            let newModel = upItem
-                            newModel.isSelected = true
-                            selectedItemModel = newModel
+                            updateCurrentModel(upItem)
                             block?(.calendarTypeUp)
-                            print("-----当前选中：\(newModel.date.string())----上次选中：\(String(describing: oldModel?.date.string()))")
                         }
                     }
                 }
@@ -92,13 +82,8 @@ class CalendarManager {
                     let downModel = dataArray[model.index + 1]
                     for downItem in downModel.dataArray {
                         if downItem.date.isSameDay(model.date) && downItem.type == .calendarTypeCurrent { // 前一月对应的日期
-                            let oldModel = selectedItemModel
-                            oldModel?.isSelected = false
-                            let newModel = downItem
-                            newModel.isSelected = true
-                            selectedItemModel = newModel
+                            updateCurrentModel(downItem)
                             block?(.calendarTypeDown)
-                            print("-----当前选中：\(newModel.date.string())----上次选中：\(String(describing: oldModel?.date.string()))")
                         }
                     }
                 }
@@ -124,6 +109,16 @@ class CalendarManager {
 }
 
 extension CalendarManager {
+    
+    fileprivate func updateCurrentModel(_ model: CalendarItemModel) {
+        let oldModel = selectedItemModel
+        oldModel?.isSelected = false
+        let newModel = model
+        newModel.isSelected = true
+        selectedItemModel = newModel
+        print("-----当前选中：\(newModel.date.string())----上次选中：\(String(describing: oldModel?.date.string()))")
+    }
+    
     fileprivate func setupDataArray() {
         var mDataArray:[CalendarModel] = []
         for i in 0..<KCalendarMonthCount {

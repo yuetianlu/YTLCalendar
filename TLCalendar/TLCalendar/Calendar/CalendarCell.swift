@@ -42,7 +42,8 @@ class CalendarCell: UICollectionViewCell {
         return layout
     }()
     let calendarLayout: CalendarCollectionLayout = {
-        let layout = CalendarCollectionLayout()
+        let style = CalendarCollectionLayoutStyle(numberOfOneRow: 7, rows: 6, width: UIScreen.main.bounds.size.width, height: 260)
+        let layout = CalendarCollectionLayout(style)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.scrollDirection = .horizontal
@@ -132,20 +133,31 @@ extension CalendarCell: UICollectionViewDelegate, UICollectionViewDataSource, UI
         
      }
 }
-
-let kEmotionCellNumberOfOneRow = 7
-let kEmotionCellRow = 6
-
+struct CalendarCollectionLayoutStyle {
+    var numberOfOneRow = 7
+    var rows = 6
+    var width: CGFloat = UIScreen.main.bounds.size.width
+    var height: CGFloat = 260
+}
 class CalendarCollectionLayout: UICollectionViewFlowLayout {
     // 保存所有item
     fileprivate var attributesArr: [UICollectionViewLayoutAttributes] = []
+    fileprivate var style: CalendarCollectionLayoutStyle
     
+    init(_ style: CalendarCollectionLayoutStyle) {
+        self.style = style
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK:- 重新布局
     override func prepare() {
         super.prepare()
         
-        let itemW: CGFloat = (UIScreen.main.bounds.size.width - 2) / CGFloat(kEmotionCellNumberOfOneRow)
-        let itemH: CGFloat = 260 / CGFloat(kEmotionCellRow)
+        let itemW: CGFloat = (style.width - 2) / CGFloat(style.numberOfOneRow)
+        let itemH: CGFloat = style.height / CGFloat(style.rows)
         // 设置itemSize
         itemSize = CGSize(width: itemW, height: itemH)
         minimumLineSpacing = 0
@@ -156,19 +168,17 @@ class CalendarCollectionLayout: UICollectionViewFlowLayout {
         collectionView?.isPagingEnabled = true
         collectionView?.showsHorizontalScrollIndicator = false
         collectionView?.showsVerticalScrollIndicator = true
-        //let insertMargin = (collectionView!.bounds.height - 3 * itemWH) * 0.5
-        //collectionView?.contentInset = UIEdgeInsets(top: insertMargin, left: 0, bottom: insertMargin, right: 0)
-        
+
         var page = 0
         let itemsCount = collectionView?.numberOfItems(inSection: 0) ?? 0
         for itemIndex in 0..<itemsCount {
             let indexPath = IndexPath(item: itemIndex, section: 0)
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             
-            page = itemIndex / (kEmotionCellNumberOfOneRow * kEmotionCellRow)
+            page = itemIndex / (style.numberOfOneRow * style.rows)
             // 通过一系列计算, 得到x, y值
-            let x = itemSize.width * CGFloat(itemIndex % Int(kEmotionCellNumberOfOneRow)) + (CGFloat(page) * UIScreen.main.bounds.size.width)
-            let y = itemSize.height * CGFloat((itemIndex - page * kEmotionCellRow * kEmotionCellNumberOfOneRow) / kEmotionCellNumberOfOneRow)
+            let x = itemSize.width * CGFloat(itemIndex % Int(style.numberOfOneRow)) + (CGFloat(page) * UIScreen.main.bounds.size.width)
+            let y = itemSize.height * CGFloat((itemIndex - page * style.rows * style.numberOfOneRow) / style.numberOfOneRow)
             
             attributes.frame = CGRect(x: x, y: y, width: itemSize.width, height: itemSize.height)
             // 把每一个新的属性保存起来
