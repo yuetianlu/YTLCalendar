@@ -11,7 +11,10 @@ import Foundation
 extension Date {
     
     func dateAfterMonth(_ month: Int) -> Date {
-        let calencar = Calendar.current
+        var calencar = Calendar.current
+        if let timezone = TimeZone(abbreviation: "EST") {
+            calencar.timeZone = timezone
+        }
         var componentsToAdd = DateComponents()
         componentsToAdd.month = month
         let dateAfterMonth = calencar.date(byAdding: componentsToAdd, to: self)
@@ -44,7 +47,10 @@ extension Date {
     }
     
     func dateAfterDay(_ day: Int) -> Date {
-        let calencar = Calendar.current
+        var calencar = Calendar.current
+        if let timezone = TimeZone(abbreviation: "EST") {
+            calencar.timeZone = timezone
+        }
         var componentsToAdd = DateComponents()
         componentsToAdd.day = day
         let dateAfterMonth = calencar.date(byAdding: componentsToAdd, to: self)
@@ -52,7 +58,11 @@ extension Date {
     }
     
     func weekday() -> Int {
-        let com = Calendar.current.dateComponents([.weekday], from: self)
+        var cal = Calendar.current
+        if let timezone = TimeZone(abbreviation: "EST") {
+            cal.timeZone = timezone
+        }
+        let com = cal.dateComponents([.weekday], from: self)
         return com.weekday!
     }
 
@@ -68,6 +78,7 @@ extension Date {
         return false
 
     }
+
 }
 
 public extension Date {
@@ -97,17 +108,30 @@ public extension Date {
     }
     
     func day() -> Int {
-        let com = Calendar.current.dateComponents([.day], from: self)
+        var cal = Calendar.current
+        if let timezone = TimeZone(abbreviation: "EST") {
+            cal.timeZone = timezone
+        }
+        //cal.timeZone = TimeZone(abbreviation: "EST") ?? TimeZone(secondsFromGMT: 28000)
+        let com = cal.dateComponents([.day], from: self)
         return com.day!
     }
     
     func month() -> Int {
-        let com = Calendar.current.dateComponents([.month], from: self)
+        var cal = Calendar.current
+        if let timezone = TimeZone(abbreviation: "EST") {
+            cal.timeZone = timezone
+        }
+        let com = cal.dateComponents([.month], from: self)
         return com.month!
     }
     
     func year() -> Int {
-        let com = Calendar.current.dateComponents([.year], from: self)
+        var cal = Calendar.current
+        if let timezone = TimeZone(abbreviation: "EST") {
+            cal.timeZone = timezone
+        }
+        let com = cal.dateComponents([.year], from: self)
         return com.year!
     }
     
@@ -128,7 +152,18 @@ public extension Date {
     
     func string(format: String = "yyyy-MM-dd") -> String {
         let fmt = DateFormatter()
+        if let timezone = TimeZone(abbreviation: "EST") {
+            fmt.timeZone = timezone
+        }
         fmt.dateFormat = format
+
         return fmt.string(from: self)
+    }
+    
+    static func formatDate(_ time: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyy-MM-dd"
+
+        return dateFormatter.date(from: time) ?? Date()
     }
 }

@@ -21,12 +21,6 @@ class CalendarManager {
     }
 
     var beganDate: Date {
-//        var now = Date()
-//        // 获取系统s时区
-//        let zone = NSTimeZone.system
-//        let time = zone.secondsFromGMT(for: now)
-//        now = now.addingTimeInterval(TimeInterval(time))
-//        print("----当前时间----\(now)")
         let now = Date.formatDate("2018-12-09")
         return now
     }

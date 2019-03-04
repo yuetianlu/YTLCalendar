@@ -82,9 +82,9 @@
 		8C52138622278545009F5300 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				8C48C9362228D54600367365 /* Date+Extension.swift */,
 				8C52138722278574009F5300 /* CalendarManager.swift */,
 				8C521389222785E5009F5300 /* CalendarItemModel.swift */,
-				8C48C9362228D54600367365 /* Date+Extension.swift */,
 				8C95E9FD22290FA0001DEDE6 /* CalendarItemCell.swift */,
 				8C95E9FF22291727001DEDE6 /* CalendarCell.swift */,
 				8C95EA0222291F32001DEDE6 /* CalendarView.swift */,
