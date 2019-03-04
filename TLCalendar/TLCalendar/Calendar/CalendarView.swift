@@ -63,6 +63,8 @@ class CalendarView: UIView {
         let selectItem = CalendarManager.manager.selectedMonthModel
         // 设置年份
         topLab.text = selectItem?.year
+        reloadCell(selectItem, type: .calendarTypeMonth)
+        monthsViewContent.updateUI()
         
         collectionView.reloadData()
     }

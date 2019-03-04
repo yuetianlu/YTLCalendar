@@ -215,7 +215,7 @@ extension CalendarManager {
             item.month = "\(upDate.month())月"
             item.year = "\(upDate.year())"
             item.type = .calendarTypeMonth
-            if i == 0 {
+            if upDate.month() == self.nowDate.month() && upDate.year() == self.nowDate.year() {
                 item.isSelected = true
                 selectedMonthModel = item
             }
