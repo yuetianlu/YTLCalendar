@@ -92,10 +92,12 @@ class CalendarView: UIView {
     
     func reloadCell(_ model:CalendarItemModel?, type: TLCalendarType) {
 
-        if let selectIndex = model?.index, selectIndex > 0, selectIndex < KCalendarMonthCount {
+        if let selectIndex = model?.index, selectIndex >= 0, selectIndex < KCalendarMonthCount {
             let indexPath = IndexPath(row: selectIndex, section:0)
-            self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            if type == .calendarTypeMonth {
+            if type != .calendarTypeItemSlide {
+                self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
+            if type == .calendarTypeMonth || type == .calendarTypeItemSlide {
                 monthsViewContent.collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
         }
